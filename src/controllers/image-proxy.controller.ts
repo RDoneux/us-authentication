@@ -8,7 +8,7 @@ const imageProxyController = Router();
 
 const images = createProxyMiddleware({ target, changeOrigin });
 
-imageProxyController.get('/get/:id', images);
+imageProxyController.get('/get', images);
 imageProxyController.get('/list', images);
 
 export default imageProxyController;
