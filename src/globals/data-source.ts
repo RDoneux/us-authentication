@@ -7,11 +7,11 @@ import { Example } from '../entities/example.entity';
 
 const _dataSource = new DataSource({
   type: 'mysql',
-  host: process.env.DS_HOST,
-  port: Number.parseInt(process.env.DS_PORT || '3306'),
-  username: process.env.DS_USERNAME,
-  password: process.env.DS_PASSWORD,
-  database: process.env.DS_DATABASE,
+  host: process.env.MYSQL_HOST,
+  port: Number.parseInt(process.env.MYSQL_PORT || '3306'),
+  username: process.env.MYSQL_USER,
+  password: process.env.MYSQL_PASSWORD,
+  database: process.env.MYSQL_DATABASE,
   // entities: ['*.entity.{js,ts}'],
   // entities: ["src/entities/*{.js,.ts}"],
   entities: [Example],

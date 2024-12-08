@@ -1,9 +1,27 @@
 services:
-  app:
-    build: .
+  usauthdatabase:
+    image: mysql:9.0
+    container_name: usAuthDatabase
+    restart: always
     ports:
-      - '4000:4000' # Map port 4000 of the container to port 4000 on the host
-    env_file:
-      - .env
+      - ${MYSQL_PORT}:3306 # Map MySQL default port
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     volumes:
-      - .:/app # Mount the current directory to /app in the container
+      - mysql_data:/var/lib/mysql # Persist MySQL data
+    healthcheck:
+      test: ['CMD', 'mysqladmin', 'ping', '-h', 'localhost', '-u', 'mysql', '-pmysql']
+      interval: 30s
+      retries: 3
+      start_period: 30s
+      timeout: 30s
+  usimageservice:
+    image: rdoneux/us:us-image-service
+    container_name: usImageService
+    ports:
+      - ${IMAGE_SERVICE_PORT}:4000 # Map US Image Service port
+volumes:
+  mysql_data: # Declare a named volume for MySQL

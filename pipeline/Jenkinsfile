@@ -4,7 +4,7 @@ pipeline {
 
     environment {
         PORT=4000
-        DOCKER_IMAGE = 'rdoneux/templates'
+        DOCKER_IMAGE = 'rdoneux/us'
     }
 
     stages {
@@ -92,17 +92,31 @@ pipeline {
                 branch 'master' // Only run this stage if the branch is 'master'
             }
             steps {
-                sh "docker build -t $DOCKER_IMAGE:tplt-node-server ." 
+                sh "docker build -t $DOCKER_IMAGE:us-authentication ." 
                 withCredentials([usernamePassword(credentialsId: 'DOCKER_HUB_CREDENTIALS', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
                     sh 'echo $PASSWORD | docker login -u $USERNAME --password-stdin'
-                    sh 'docker push $DOCKER_IMAGE:tplt-node-server'
+                    sh 'docker push $DOCKER_IMAGE:us-authentication'
                 }
             }
             post {
                always {
-                    sh 'docker rmi $DOCKER_IMAGE:tplt-node-server || true'
+                    sh 'docker rmi $DOCKER_IMAGE:us-authentication || true'
                } 
             }
+        }
+
+         stage ("Deploy") {
+            when {
+                branch 'master'
+            }
+            steps {
+                script {
+                    sh 'npm i @railway/cli'
+                    env.PATH = "${env.WORKSPACE}/node_modules/.bin:${env.PATH}"
+                    sh 'railway up --detach --service us-authentication'
+                }
+            }
+
         }
     }
 
