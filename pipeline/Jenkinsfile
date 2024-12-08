@@ -5,6 +5,7 @@ pipeline {
     environment {
         PORT=4000
         DOCKER_IMAGE = 'rdoneux/us'
+        RAILWAY_TOKEN = credentials("US_RAILWAY_TOKEN")
     }
 
     stages {
