@@ -8,6 +8,8 @@ import { errorLog, infoLog } from './globals/logging-globals';
 import { dataSource } from './globals/data-source';
 import eventsProxyController from './controllers/events-proxy.controller';
 import imageProxyController from './controllers/image-proxy.controller';
+import isAuthenticated from './middleware/isAuthenticated';
+import authenticationController from './controllers/authentication.controller';
 
 export const environment = process.env.NODE_ENV || 'development';
 console.log(
@@ -22,6 +24,12 @@ if (environment === 'test') PORT = 4001;
 
 // middleware
 application.use(logger);
+
+// authentication
+application.use(authenticationController);
+
+// authentication middleware
+application.use(isAuthenticated);
 
 // controllers
 application.use(actuatorController);
