@@ -36,14 +36,12 @@ async function login(request: Request, response: Response) {
 
     const { access_token, refresh_token } = generateTokens(username);
 
-    response
-      .status(200)
-      .json({
-        accessToken: access_token,
-        refreshToken: refresh_token,
-        token_type: 'Bearer',
-        expires_in: 900,
-      });
+    response.status(200).json({
+      accessToken: access_token,
+      refreshToken: refresh_token,
+      token_type: 'Bearer',
+      expires_in: 900,
+    });
   } catch (error) {
     response.status(500).json(error);
   }
@@ -67,14 +65,12 @@ async function refreshToken(request: Request, response: Response) {
 
     const { access_token, refresh_token } = generateTokens(username);
 
-    response
-      .status(200)
-      .json({
-        accessToken: access_token,
-        refreshToken: refresh_token,
-        token_type: 'Bearer',
-        expires_in: 900,
-      });
+    response.status(200).json({
+      accessToken: access_token,
+      refreshToken: refresh_token,
+      token_type: 'Bearer',
+      expires_in: 900,
+    });
   } catch (error) {
     response.status(500).json(error);
   }
