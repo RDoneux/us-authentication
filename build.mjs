@@ -11,7 +11,7 @@ await esbuild
     format: 'cjs',
     external: ['sqlite3'],
     define: {
-      'process.env.DEBUG': JSON.stringify('tplt-node-server:*'),
+      'process.env.DEBUG': JSON.stringify('us-authentication:*'),
     },
   })
   .then(async () => {
