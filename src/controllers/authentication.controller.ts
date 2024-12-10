@@ -20,7 +20,7 @@ async function login(request: Request, response: Response) {
       response.status(401).json({ message: 'Missing or invalid Authorization header' });
       return;
     }
-
+    infoLog('past auth header');
     // Extract and decode credentials
     const { username, password } = extractAndDecodeBasicCredentials(authHeader);
 
@@ -30,6 +30,7 @@ async function login(request: Request, response: Response) {
       response.status(401).json({ message: 'Invalid credentials' });
       return;
     }
+    infoLog('past user');
 
     const isPasswordValid = await compare(password, user.password);
     if (!isPasswordValid) {
@@ -37,6 +38,7 @@ async function login(request: Request, response: Response) {
       response.status(401).json({ message: 'Invalid credentials' });
       return;
     }
+    infoLog('past password');
 
     const { access_token, refresh_token } = generateTokens(username);
     infoLog('login success');
