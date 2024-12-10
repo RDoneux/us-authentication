@@ -15,7 +15,7 @@ async function login(request: Request, response: Response) {
     const authHeader = request.headers.authorization;
 
     if (!authHeader || !authHeader.startsWith('Basic ')) {
-      console.log("no auth header")
+      console.log('no auth header');
       response.status(401).json({ message: 'Missing or invalid Authorization header' });
       return;
     }
@@ -25,20 +25,20 @@ async function login(request: Request, response: Response) {
 
     const user: User | null = await userRepository.findOne({ where: { username } });
     if (!user) {
-      console.log("no user")
+      console.log('no user');
       response.status(401).json({ message: 'Invalid credentials' });
       return;
     }
 
     const isPasswordValid = await compare(password, user.password);
     if (!isPasswordValid) {
-      console.log("invalid password")
+      console.log('invalid password');
       response.status(401).json({ message: 'Invalid credentials' });
       return;
     }
 
     const { access_token, refresh_token } = generateTokens(username);
-    console.log("login success")
+    console.log('login success');
 
     response.status(200).json({
       accessToken: access_token,
