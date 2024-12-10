@@ -9,7 +9,7 @@ await esbuild
     outdir: 'dist',
     platform: 'node',
     format: 'cjs',
-    external: ['sqlite3', '@mapbox', 'mock-aws-s3', 'aws-sdk', 'nock'], // Mark sqlite3 as external,
+    external: ['sqlite3'],
     define: {
       'process.env.DEBUG': JSON.stringify('tplt-node-server:*'),
     },

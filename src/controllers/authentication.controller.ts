@@ -1,6 +1,6 @@
 import { Request, Response, Router } from 'express';
 import { userRepository } from '../repositories/user.repository';
-import { compare } from 'bcrypt';
+import { compare } from 'bcryptjs';
 import { JwtPayload, sign, verify } from 'jsonwebtoken';
 import { TokenType } from '../globals/types';
 import { User } from '../entities/user.entity';
