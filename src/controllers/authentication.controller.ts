@@ -5,6 +5,7 @@ import { JwtPayload, sign, verify } from 'jsonwebtoken';
 import { TokenType } from '../globals/types';
 import { User } from '../entities/user.entity';
 import { errorLog, infoLog } from '../globals/logging-globals';
+import { tokenRepository } from '../repositories/token.repository';
 
 const authenticationController = Router();
 
@@ -40,7 +41,7 @@ async function login(request: Request, response: Response) {
     }
     infoLog('past password');
 
-    const { access_token, refresh_token } = generateTokens(username);
+    const { access_token, refresh_token } = await generateTokens(username);
     infoLog('login success');
 
     response.status(200).json({
@@ -66,11 +67,19 @@ async function refreshToken(request: Request, response: Response) {
 
     const { username, type } = verify(authHeader, secret) as JwtPayload;
 
+    const tokenUsed = await tokenRepository.findOne({ where: { token: authHeader } });
+    if (tokenUsed) {
+      response.status(401).json({ message: 'Token has already been used' });
+      return
+    }
+
     if (type !== TokenType.REFRESH) {
       response.status(401).json({ message: 'Invalid token' });
     }
 
-    const { access_token, refresh_token } = generateTokens(username);
+    const { access_token, refresh_token } = await generateTokens(username);
+    // Save refresh token to database
+    await tokenRepository.save({ token: authHeader });
 
     response.status(200).json({
       accessToken: access_token,
@@ -83,7 +92,7 @@ async function refreshToken(request: Request, response: Response) {
   }
 }
 
-function generateTokens(username: string) {
+async function generateTokens(username: string) {
   if (!process.env.ACCESS_SECRET || !process.env.REFRESH_SECRET) {
     errorLog('Missing secret');
   }
