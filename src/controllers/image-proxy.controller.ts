@@ -10,5 +10,6 @@ const images = createProxyMiddleware({ target, changeOrigin });
 
 imageProxyController.get('/get', images);
 imageProxyController.get('/list', images);
+imageProxyController.get('/print', images);
 
 export default imageProxyController;

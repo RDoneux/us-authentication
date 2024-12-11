@@ -4,7 +4,7 @@ import { compare } from 'bcryptjs';
 import { JwtPayload, sign, verify } from 'jsonwebtoken';
 import { TokenType } from '../globals/types';
 import { User } from '../entities/user.entity';
-import { infoLog } from '../globals/logging-globals';
+import { errorLog, infoLog } from '../globals/logging-globals';
 
 const authenticationController = Router();
 
@@ -84,6 +84,9 @@ async function refreshToken(request: Request, response: Response) {
 }
 
 function generateTokens(username: string) {
+  if (!process.env.ACCESS_SECRET || !process.env.REFRESH_SECRET) {
+    errorLog('Missing secret');
+  }
   const access_token = sign(
     { username, type: TokenType.ACCESS },
     process.env.ACCESS_SECRET as string,
