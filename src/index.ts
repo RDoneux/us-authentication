@@ -23,7 +23,7 @@ let PORT = process.env.PORT || 4000;
 if (environment === 'test') PORT = 4001;
 
 const corsOptions = {
-  origin: ['http://localhost:3000', 'https://us-spa-production.up.railway.app'],
+  origin: ['http://localhost:5173', 'https://us-spa-production.up.railway.app'],
   optionsSuccessStatus: 200,
   allowedHeaders: ['Content-Type', 'Authorization'],
 }
