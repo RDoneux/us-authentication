@@ -10,6 +10,7 @@ import eventsProxyController from './controllers/events-proxy.controller';
 import imageProxyController from './controllers/image-proxy.controller';
 import isAuthenticated from './middleware/isAuthenticated';
 import authenticationController from './controllers/authentication.controller';
+import cors from 'cors';
 
 export const environment = process.env.NODE_ENV || 'development';
 console.log(
@@ -27,6 +28,8 @@ const corsOptions = {
   optionsSuccessStatus: 200,
   allowedHeaders: ['Content-Type', 'Authorization'],
 }
+
+application.use(cors(corsOptions));
 
 // middleware
 application.use(logger);
