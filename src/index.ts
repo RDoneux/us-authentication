@@ -27,7 +27,7 @@ const corsOptions = {
   origin: ['http://localhost:5173', 'https://us-spa-production.up.railway.app'],
   optionsSuccessStatus: 200,
   allowedHeaders: ['Content-Type', 'Authorization'],
-}
+};
 
 application.use(cors(corsOptions));
 

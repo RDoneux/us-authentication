@@ -70,7 +70,7 @@ async function refreshToken(request: Request, response: Response) {
     const tokenUsed = await tokenRepository.findOne({ where: { token: authHeader } });
     if (tokenUsed) {
       response.status(401).json({ message: 'Token has already been used' });
-      return
+      return;
     }
 
     if (type !== TokenType.REFRESH) {
