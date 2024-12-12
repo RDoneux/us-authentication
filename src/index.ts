@@ -22,6 +22,12 @@ let PORT = process.env.PORT || 4000;
 // if running in test environment, force to port 4001 to avoid conflicts with potentially running instances
 if (environment === 'test') PORT = 4001;
 
+const corsOptions = {
+  origin: ['http://localhost:3000', 'https://us-spa-production.up.railway.app'],
+  optionsSuccessStatus: 200,
+  allowedHeaders: ['Content-Type', 'Authorization'],
+}
+
 // middleware
 application.use(logger);
 
