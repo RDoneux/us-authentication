@@ -58,15 +58,24 @@ export const server = application.listen(PORT, (error?: Error) => {
     : infoLog(`Server launched successfully, listening at: http://localhost:${PORT}`);
 });
 
-// test environment will handle dataSource connection, no need to establish it in server
-if (environment !== 'test') {
-  // connect to database
-  dataSource
-    .initialize()
-    .then(() => {
-      infoLog('Database initalised successfully');
-    })
-    .catch((error: Error) => {
-      errorLog(`There was an error initalising database: ${error}`);
-    });
+
+function initalizeDatabase(attempt: number = 1) {
+  // test environment will handle dataSource connection, no need to establish it in server
+  if (environment !== 'test') {
+    // connect to database
+    dataSource
+      .initialize()
+      .then(() => {
+        infoLog('Database initalised successfully');
+      })
+      .catch((error: Error) => {
+        errorLog(`There was an error initalising database: ${error}`);
+        if (attempt < 5) {
+          infoLog(`Attempting to connect again...`)
+          setTimeout(() => {
+            initalizeDatabase(attempt + 1);
+          }, 5000);
+        }
+      });
+  }
 }
