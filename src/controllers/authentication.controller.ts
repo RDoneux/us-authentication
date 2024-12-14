@@ -75,6 +75,7 @@ async function refreshToken(request: Request, response: Response) {
 
     if (type !== TokenType.REFRESH) {
       response.status(401).json({ message: 'Invalid token' });
+      return;
     }
 
     const { access_token, refresh_token } = await generateTokens(username);
