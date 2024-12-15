@@ -35,13 +35,13 @@ application.use(cors(corsOptions));
 application.use(logger);
 
 // authentication
+application.use(actuatorController);
 application.use(authenticationController);
 
 // authentication middleware
 application.use(isAuthenticated);
 
 // controllers
-application.use(actuatorController);
 application.use(eventsProxyController);
 application.use(imageProxyController);
 
