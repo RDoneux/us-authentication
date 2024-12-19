@@ -10,6 +10,7 @@ const events = createProxyMiddleware({ target, changeOrigin });
 
 eventsProxyController.get('/events', events);
 eventsProxyController.get('/events/:id', events);
+eventsProxyController.get('/events/range', events);
 eventsProxyController.post('/events', events);
 eventsProxyController.put('/events/:id', events);
 eventsProxyController.delete('/events/:id', events);
